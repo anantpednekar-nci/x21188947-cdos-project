@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: project_recipies
     destination: /home/ec2-user/django-aws_cicd
 hooks:
   BeforeInstall:
