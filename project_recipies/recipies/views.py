@@ -1,7 +1,9 @@
 from django.shortcuts import render
 
 from django.http import HttpResponse
-# Create your views here.
+#rom django.contrib.auth.decorators import login_required
+
+#@login_required
 def index(request):
     #newest_movies = Movie.objects.order_by('-release_date')[:15]
     #context = {'newest_movies': newest_movies}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'recipies.apps.RecipiesConfig',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
