@@ -1,0 +1,35 @@
+{% extends 'recipies/base.html' %}
+{% load bootstrap4%}
+{% block content %}
+  <div class="container">
+    <h1>Welcome to your Recipe Manager</h1>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search Recipes" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <hr>
+    <div class="row">
+     <div class="col-md-6">
+        <h2>My Recipes</h2>
+        <ul>
+          {% for recipe in recipes.all %}
+            <li><a href="{% url 'recipies:recipe_view' pk=recipe.id %}">{{ recipe.title }}</a></li>
+          {% empty %}
+            <li>You have not added any recipes yet.</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'recipies:add_recipe' %}" class="btn btn-primary">Add New Recipe</a>
+      </div>
+      <div class="col-md-6">
+        <h2>My Account</h2>
+        <ul>
+          <li><a href="/register">Update Profile</a></li>
+          <li><a href="/register">Change Password</a></li>
+          <li><a href="/register">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+<
