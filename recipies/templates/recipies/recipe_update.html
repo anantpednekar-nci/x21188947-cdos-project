@@ -13,7 +13,7 @@
             {% csrf_token %}
             {% bootstrap_form form %}
             <div class="form-group">
-              <a class="btn btn-secondary" href="{% url 'recipies:recipe_view' pk=recipe.pk %}">Cancel</a>
+              <a class="btn btn-secondary" href="{% url 'recipies:user_home' %}">Cancel</a>
               <button class="btn btn-primary" type="submit">Submit</button>
             </div>
           </form>

@@ -9,8 +9,13 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .forms import RegistrationForm, UpdateProfileForm, RecipeForm
 from .models import Recipe
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import logout
 
-
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'logged out successfully.')
+    return redirect('recipies:index')
+    
 @login_required
 def update_profile(request):
     if request.method == 'POST':
@@ -18,7 +23,7 @@ def update_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile has been updated successfully.')
-            return redirect('recipies:index')
+            return redirect('recipies:user_home')
         else:
             messages.error(request, 'There was an error updating your profile. Please check the form and try again.')
     else:
@@ -33,7 +38,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('recipies:index')
+            return redirect('recipies:user_home')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'recipies/change_password.html', {'form': form})
@@ -50,7 +55,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'logged in successfully.')
-            return redirect('recipies:index')
+            return redirect('recipies:user_home')
         else:
             # If the user is not authenticated, display an error message
             messages.error(request, 'Invalid username or password.')
@@ -82,7 +87,7 @@ def register(request):
             login(request, user)
             return redirect('recipies:index')
         else:
-             return HttpResponse("<h1> NOT DONE</h1>" )
+            return redirect('recipies:index')
     else:
         register_form = RegistrationForm()
     return render(request, 'recipies/register.html', {'register_form': register_form})
@@ -106,19 +111,26 @@ def add_recipe(request):
         form = RecipeForm()
     return render(request, 'recipies/add_recipe.html', {'form': form})
     
-
-@login_required
 def recipe_view(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk, owner=request.user)
-    if request.method == 'GET':
-        form = RecipeForm(instance=recipe)
-        return render(request, 'recipies/recipe_view.html', {'recipe': recipe, 'form': form})
-    else:
-        form = RecipeForm(request.POST, request.FILES, instance=recipe)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Recipe updated successfully.')
-            return redirect('recipies:recipe_view', pk=recipe.pk)
-        else:
-            return render(request, 'recipies/recipe_view.html', {'recipe': recipe, 'form': form})
+    return render(request, 'recipies/recipe_view.html', {'recipe': recipe})
+
+
+@login_required
+def recipe_update(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk, owner=request.user)
+    form = RecipeForm(request.POST or None, request.FILES or None, instance=recipe)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Recipe updated successfully.')
+        return redirect('recipies:user_home', pk=recipe.pk)
+    return render(request, 'recipies/recipe_update.html', {'form': form})
+
+
+@login_required
+def recipe_delete(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk, owner=request.user)
+    recipe.delete()
+    messages.success(request, 'Recipe deleted successfully.')
+    return redirect('recipies:user_home')
 

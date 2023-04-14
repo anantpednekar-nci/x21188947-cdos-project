@@ -10,7 +10,7 @@
           <h3 class="mb-0">Update Profile</h3>
         </div>
         <div class="card-body">
-          <form method="post">
+          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form layout='horizontal' %}
             {% buttons %}

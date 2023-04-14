@@ -17,11 +17,6 @@
           <h5>Ingredients:</h5>
           <p>{{ recipe.ingredients }}</p>
         </div>
-        {% if user == recipe.owner %}
-        <div class="card-footer">
-          <a class="btn btn-primary" href="">Edit Recipe</a>
-        </div>
-        {% endif %}
         <div class="card-footer">
           <a class="btn btn-primary" href="{% url 'recipies:user_home' %}">Back</a>
         </div>
