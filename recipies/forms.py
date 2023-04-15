@@ -17,17 +17,15 @@ from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator, EmailValidator
 from .models import Recipe
 
+HELP_TEXT ="optional"
+
 
 class RecipeForm(forms.ModelForm):
-    """
-    Form for creating and updating a recipe.
-    """
+    """Form for creating and updating a recipe."""
     title = forms.CharField(validators=[MinLengthValidator(3)])
 
     class Meta:
-        """
-        Meta Class for RecipeRating
-        """
+        """Meta Class for RecipeRating"""
         model = Recipe
         fields = ('title', 'description', 'image', 'steps', 'ingredients')
         widgets = {
@@ -40,17 +38,13 @@ class RecipeForm(forms.ModelForm):
 
 
 class RegistrationForm(UserCreationForm):
-    """
-    Form for user registration.
-    """
+    """Form for user registration."""
     email = forms.EmailField(required=True, validators=[EmailValidator()])
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    first_name = forms.CharField(max_length=30, required=False, help_text=HELP_TEXT)
+    last_name = forms.CharField(max_length=30, required=False, help_text=HELP_TEXT)
 
     class Meta:
-        """
-         Meta class  for user registration.
-        """
+        """Meta class  for user registration."""
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name')
 
@@ -65,24 +59,18 @@ class RegistrationForm(UserCreationForm):
 
 
 class UpdateProfileForm(forms.ModelForm):
-    """
-    Form for updating user profile information.
-    """
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    """Form for updating user profile information."""
+    first_name = forms.CharField(max_length=30, required=False, help_text=HELP_TEXT)
+    last_name = forms.CharField(max_length=30, required=False, help_text=HELP_TEXT)
     email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address.')
 
     class Meta:
-        """
-        Meta class for updating user profile information.
-        """
+        """Meta class for updating user profile information."""
         model = User
         fields = ('first_name', 'last_name', 'email')
 
 
 class RecipeRatingForm(forms.Form):
-    """
-    Form for rating a recipe.
-    """
+    """Form for rating a recipe."""
     rating = forms.ChoiceField(choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')],
                                widget=forms.Select(attrs={'class': 'form-control'}))

@@ -8,6 +8,8 @@ from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, UpdateProfileForm, RecipeForm
 from .models import Recipe, RecipeRating
 
+RECIPIES_HOME='recipies:user_home'
+
 
 def logout_view(request):
     """Logout View"""
@@ -24,7 +26,7 @@ def update_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile has been updated successfully.')
-            return redirect('recipies:user_home')
+            return redirect(RECIPIES_HOME)
         messages.error(request, 'There was an error updating your profile.')
     else:
         form = UpdateProfileForm(instance=request.user)
@@ -40,7 +42,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('recipies:user_home')
+            return redirect('RECIPIES_HOME')
         messages.error(request, 'There was an error updating your password.')
     else:
         form = PasswordChangeForm(request.user)
@@ -60,7 +62,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'logged in successfully.')
-            return redirect('recipies:user_home')
+            return redirect(RECIPIES_HOME)
         # If the user is not authenticated, display an error message
         messages.error(request, 'Invalid username or password.')
     # Render the login page
@@ -79,7 +81,7 @@ def register(request):
     if request.method == 'POST':
         register_form = RegistrationForm(request.POST)
         if register_form.is_valid():
-            user = register_form.save()
+            register_form.save()
             username = register_form.cleaned_data.get('username')
             raw_password = register_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -110,7 +112,7 @@ def add_recipe(request):
             recipe.owner = request.user
             recipe.save()
             messages.success(request, 'Recipe added successfully.')
-            return redirect('recipies:user_home')
+            return redirect(RECIPIES_HOME)
     form = RecipeForm()
     return render(request, 'recipies/add_recipe.html', {'form': form})
 
@@ -139,7 +141,7 @@ def recipe_delete(request, recipe_pk):
     recipe = get_object_or_404(Recipe, pk=recipe_pk, owner=request.user)
     recipe.delete()
     messages.success(request, 'Recipe deleted successfully.')
-    return redirect('recipies:user_home')
+    return redirect(RECIPIES_HOME)
 
 
 @require_POST
@@ -153,5 +155,5 @@ def rate_recipe(request, recipe_pk):
         if created:
             messages.success(request, 'You have successfully rated this recipe!')
         user_rating.save()
-    return redirect('recipies:user_home')
+    return redirect(RECIPIES_HOME)
     

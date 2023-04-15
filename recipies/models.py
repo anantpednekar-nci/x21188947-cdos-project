@@ -18,9 +18,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class RecipeManager(models.Manager):
-    """
-    Recipe manager for app
-    """
+    """Recipe manager for app"""
     def get_queryset(self):
         """
         Custom query set
@@ -29,13 +27,9 @@ class RecipeManager(models.Manager):
 
 
 class RecipeRatingManager(models.Manager):
-    """
-    Custom manager for RecipeRating model
-    """
+    """Custom manager for RecipeRating model"""
     def avg_rating(self, recipe):
-        """
-        Calculates the average rating for a given recipe
-        """
+        """Calculates the average rating for a given recipe"""
         ratings = self.filter(recipe=recipe)
         if ratings:
             return sum([r.rating for r in ratings]) / len(ratings)
@@ -43,9 +37,7 @@ class RecipeRatingManager(models.Manager):
 
 
 class Recipe(models.Model):
-    """
-    Recipe Model for app
-    """
+    """Recipe Model for app"""
     title = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
@@ -58,9 +50,7 @@ class Recipe(models.Model):
         return self.title
 
     def avg_rating(self):
-        """
-        Fucntion for calc avg rating
-        """
+        """Fucntion for calc avg rating"""
         ratings = RecipeRating.objects.filter(recipe=self)
         if ratings:
             return "{:.1f}".format(sum([r.rating for r in ratings]) / len(ratings))
@@ -68,9 +58,7 @@ class Recipe(models.Model):
 
 
 class UserProfile(models.Model):
-    """
-    Class for UserProfile
-    """
+    """Class for UserProfile"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     email = models.EmailField(validators=[EmailValidator()])
     phone_number = models.CharField(
@@ -85,9 +73,7 @@ class UserProfile(models.Model):
 
 
 class RecipeRating(models.Model):
-    """
-    Class for RecipeRating
-    """
+    """Class for RecipeRating"""
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(
@@ -97,9 +83,7 @@ class RecipeRating(models.Model):
     objects = RecipeRatingManager()
 
     class Meta:
-        """
-        Meta Class for RecipeRating
-        """
+        """Meta Class for RecipeRating"""
         unique_together = ('recipe', 'user')
 
     def __str__(self):
