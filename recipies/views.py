@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, UpdateProfileForm, RecipeForm
 from .models import Recipe, RecipeRating
 
-RECIPIES_HOME='recipies:user_home'
+RECIPIES_HOME = 'recipies:user_home'
 
 
 def logout_view(request):
@@ -87,7 +87,6 @@ def register(request):
             user = authenticate(username=username, password=raw_password)
             user.save()
             messages.success(request, 'Account created successfully.')
-            #login(request, user)
             return redirect('recipies:index')
         messages.error(request, 'Error while registering')
     else:

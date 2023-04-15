@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator, EmailValidator
 from .models import Recipe
 
-HELP_TEXT ="optional"
+HELP_TEXT = "optional"
 
 
 class RecipeForm(forms.ModelForm):
