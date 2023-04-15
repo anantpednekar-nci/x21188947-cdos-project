@@ -85,7 +85,7 @@ def register(request):
             user = authenticate(username=username, password=raw_password)
             user.save()
             messages.success(request, 'Account created successfully.')
-            login(request, user)
+            #login(request, user)
             return redirect('recipies:index')
         messages.error(request, 'Error while registering')
     else:
