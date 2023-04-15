@@ -2,38 +2,30 @@
 {% load bootstrap4%}
 {% block content %}
 <div class="container text-center">    
+<br>
   <h3>Bonjour</h3><br>
+<br>
 
+
+ <div class="container">
   <div class="row">
-
-    <div class="col-sm-6">
-        <p><strong>Best Recipies</strong></p>
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-      
-    </div>
-
-
-    <div class="col-sm-6"> 
-        <p><strong>Best Author</strong></p>
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        
-    </div>
-
-
+    {% for recipe in recipes %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-4">
+          <img class="card-img-top" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+            <p class="card-text">{{ recipe.description }}</p>
+            <p class="card-text">Avg Rating {{ recipe.avg_rating }}</p>
+            <a href="{% url 'recipies:recipe_view' recipe.id %}" class="btn btn-primary">View Recipe</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
   </div>
-</div><br>
+</div>
+<br>
 
-<div class="container text-center">    
-  <h3>Random Recipies</h3><br>
-
-  <div class="row">
-    <div class="col-sm-12">
-      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-      <p>Best Recipies</p>
-    </div>
-  </div>
-</div><br>
-<footer class="container-fluid text-center">
-  <p>Footer Text</p>
-</footer>
 {% endblock %}
+
+

@@ -2,12 +2,9 @@
 {% load bootstrap4%}
 {% block content %}
   <div class="container">
-    <h1>Welcome to your Recipe Manager</h1>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search Recipes" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    <hr>
+    <br>
+    <h1 class="text-center mb-5">Welcome to your Recipe Manager</h1>
+    <hr class="mb-5">
     <div class="row">
   <div class="col-md-12">
     <h2>My Recipes</h2>
@@ -20,20 +17,27 @@
         </tr>
       </thead>
       <tbody>
-        {% for recipe in recipes.all %}
-          <tr>
-            <td>{{ recipe.title }}</td>
-            <td>{{ recipe.description }}</td>
-           <td>
-              <a href="{% url 'recipies:recipe_view' pk=recipe.pk %}" class="btn btn-primary btn-sm">View</a>
-              <a href="{% url 'recipies:recipe_update' pk=recipe.pk %}" class="btn btn-secondary btn-sm">Edit</a>
-              <a href="{% url 'recipies:recipe_delete' pk=recipe.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this recipe?')">Delete</a>
-          </td>
-
-          </tr>
+        {% for recipe in recipes %}
+          {% if recipe.owner == request.user %}
+            <tr>
+              <td>{{ recipe.title }}</td>
+              <td>{{ recipe.description }}</td>
+             <td>
+                <a href="{% url 'recipies:recipe_view' recipe_pk=recipe.pk %}" class="btn btn-primary btn-sm">View</a>
+                <a href="{% url 'recipies:recipe_update' recipe_pk=recipe.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+                <a href="{% url 'recipies:recipe_delete' recipe_pk=recipe.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this recipe?')">Delete</a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td>{{ recipe.title }}</td>
+              <td>{{ recipe.description }}</td>
+              <td><a href="{% url 'recipies:recipe_view' recipe_pk=recipe.pk %}" class="btn btn-primary btn-sm">View</a></td>
+            </tr>
+          {% endif %}
         {% empty %}
           <tr>
-            <td colspan="3">You have not added any recipes yet.</td>
+            <td colspan="3">There are no recipes to display.</td>
           </tr>
         {% endfor %}
       </tbody>

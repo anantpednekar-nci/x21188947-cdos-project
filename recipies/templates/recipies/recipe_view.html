@@ -1,6 +1,6 @@
 {% extends 'recipies/base.html' %}
+{% load bootstrap4 %}
 {% block content %}
-
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -12,15 +12,57 @@
         <div class="card-body">
           <h5>Description:</h5>
           <p>{{ recipe.description }}</p>
-          <h5>Steps:</h5>
-          <p>{{ recipe.steps }}</p>
           <h5>Ingredients:</h5>
           <p>{{ recipe.ingredients }}</p>
+          <h5>Steps:</h5>
+          <p>{{ recipe.steps }}</p>
         </div>
+        {% if user.is_authenticated %}
         <div class="card-footer">
           <a class="btn btn-primary" href="{% url 'recipies:user_home' %}">Back</a>
         </div>
+        {% else %}
+          <div class="card-footer">
+          <a class="btn btn-primary" href="{% url 'recipies:index' %}">Back</a>
+        </div>
+        {% endif %}
+        
       </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      {% if user.is_authenticated %}
+      {% if recipe.owner != request.user %}
+      <form method="post" action="{% url 'recipies:rate_recipe' recipe.pk %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="rating">Rate this recipe:</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rating" id="rating1" value="1">
+            <label class="form-check-label" for="rating1">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+            <label class="form-check-label" for="rating2">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+            <label class="form-check-label" for="rating3">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+            <label class="form-check-label" for="rating4">4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+            <label class="form-check-label" for="rating5">5</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit rating</button>
+      </form>
+      {% endif %}
+      {% endif %}
     </div>
   </div>
 </div>

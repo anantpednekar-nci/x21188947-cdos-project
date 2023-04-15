@@ -1,3 +1,9 @@
+"""
+Django's command-line utility for administrative tasks.
+
+Usage:
+    python manage.py <command> [options]
+"""
 #!/usr/bin/env python
 import os
 import sys
