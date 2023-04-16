@@ -6,8 +6,8 @@ These warnings are related to the number of public methods in the form classes.
 A public method is a method that can be accessed outside of the class.
 The linter is suggesting that you add more public methods to the form classes,
 As they currently have only the Meta class.
-However, this warning can be safely ignored,
-for form classes as they are not required to have public methods other than __init__ and clean.
+However, this warning can be safely ignored for form classes,
+as they are not required to have public methods other than __init__ and clean.
 """
 # pylint: disable=R0903
 
