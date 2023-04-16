@@ -130,7 +130,7 @@ def recipe_update(request, recipe_pk):
     if form.is_valid():
         form.save()
         messages.success(request, 'Recipe updated successfully.')
-        return redirect('recipies:recipe_view', pk=recipe.pk)
+        return render(request, 'recipies/recipe_view.html', {'recipe': recipe})
     return render(request, 'recipies/recipe_update.html', {'form': form})
 
 
