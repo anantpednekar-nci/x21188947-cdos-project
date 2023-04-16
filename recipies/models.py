@@ -9,7 +9,7 @@ As they currently have only the Meta class.
 However, this warning can be safely ignored,
 for form classes as they are not required to have public methods other than __init__ and clean.
 """
-# pylint: disable=R0903
+# pylint: disable=R0903,W0235,E1101
 
 from django.db import models
 from django.contrib.auth.models import User
